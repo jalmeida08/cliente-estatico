@@ -1,0 +1,36 @@
+<div class="row g-0" >
+    <div class="col-md-5 offset-md-3">
+        <form>
+            <div class="form-group mb-3">
+                <label for="nome">Nome</label>
+                <input 
+                    
+                    type="text"
+                    class="form-control"
+                    id="nome"
+                    name="nome"
+                >
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="num_cpf">CPF</label>
+                <input 
+                    
+                    type="text"
+                    class="form-control"
+                    id="num_cpf"
+                    name="num_cpf"
+                >
+            </div>
+
+            
+        </form>
+        <div class="btn-group d-grid d-md-flex justify-content-md-end" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary" (click)="abrirModalTelefone()">Telefone</button>
+            <button type="button" class="btn btn-outline-primary">Email</button>
+            <button type="button" class="btn btn-outline-primary">Endereço</button>
+        </div>
+    </div>
+</div>
+
+<app-telefone></app-telefone>

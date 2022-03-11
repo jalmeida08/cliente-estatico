@@ -1,0 +1,17 @@
+<div class="row g-0 mt-5 p-4">
+    <div class="col-md-3 offset-md-4" >
+        <form [formGroup]="loginForm" (submit)="login()">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input formControlName="usuario" type="text" class="form-control" name="usuario" id="usuario" autofocus>
+            </div>
+            <div class="form-group" style="clear: right;">
+                <label for="senha">Senha</label>
+                <input type="password" formControlName="senha" name="senha" id="senha" class="form-control">
+            </div>
+            <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
