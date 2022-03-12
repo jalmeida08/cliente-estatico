@@ -19,6 +19,11 @@ export class TokenService {
         return window.localStorage.getItem(KEY);
     }
 
+    getTypeAndToken(): string | null {
+        return window.localStorage.getItem(TYPE_KEY) + ' ' + window.localStorage.getItem(KEY);
+    }
+
+
     hasToken(): boolean {
         if(this.getToken())
             return true;

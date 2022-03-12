@@ -1,0 +1,18 @@
+<table class="table" *ngIf="(listaDadoCliente$ | async) as lstDadoCliente">
+    <thead >
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Nome</th>
+        <th scope="col">CPF</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of lstDadoCliente" >
+        <th scope="row">{{ item.id }}</th>
+        <td>{{ item.nome }}</td>
+        <td>{{ adicionarZerosEsquerda(item.cpf) | mask: '000.000.000-00'}}</td>
+        <td (click)="removeCliente(item)">REMOVE</td>
+      </tr>
+    </tbody>
+  </table>

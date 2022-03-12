@@ -1,0 +1,36 @@
+<div class="modal fade" id="modalAdicionaEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row g-0" >
+                <div class="col">
+                    <div class="p-2">
+                        <form [formGroup]="emailForm" (submit)="adicionaEmail()">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="email">E-mail</label>
+                                        <input 
+                                            formControlName="email"
+                                            type="text"
+                                            placeholder="meuemail@mail.com"
+                                            class="form-control"
+                                            id="email"
+                                            name="email"
+                                        >
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Adicionar</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

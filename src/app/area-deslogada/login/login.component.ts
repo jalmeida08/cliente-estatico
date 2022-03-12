@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { Token } from "src/app/core/model/token";
 import { TokenService } from "src/app/core/token/token.service";
@@ -19,7 +20,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     
     constructor(
         private loginService: LoginService,
-        private tokenServoce: TokenService) {}
+        private tokenServoce: TokenService,
+        private readonly router: Router
+        ) {}
 
     
     ngOnInit(): void {
@@ -44,8 +47,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (res: Token) => {
-                    console.log(res);
                     this.tokenServoce.setToken(res.accessToken, res.tokenType);
+                    this.router.navigate(['cliente']);
                 },
                 error: (err) => {
                     console.log(err);

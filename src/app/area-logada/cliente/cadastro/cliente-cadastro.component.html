@@ -1,10 +1,11 @@
 <div class="row g-0" >
     <div class="col-md-5 offset-md-3">
-        <form>
-            <div class="form-group mb-3">
+        <form [formGroup]="clienteForm" (submit)="salvaDadosCliente()"> 
+            
+            <div class="form-group mb-3 col-sm-12">
                 <label for="nome">Nome</label>
                 <input 
-                    
+                    formControlName="nome"
                     type="text"
                     class="form-control"
                     id="nome"
@@ -15,22 +16,142 @@
             <div class="form-group mb-3">
                 <label for="num_cpf">CPF</label>
                 <input 
-                    
+                    [mask]="getMask('cpf')"
+                    formControlName="cpf"
                     type="text"
                     class="form-control"
                     id="num_cpf"
                     name="num_cpf"
                 >
             </div>
+            <div *ngIf="isExiteFormularioEndereco">
+                <div class="row">
+                    <div class="form-group mb-3 col-sm-3">
+                        <label for="num_cep">CEP</label>
+                        <input 
+                            (blur)="buscarPorCep()"
+                            [mask]="getMask('cep')"
+                            formControlName="cep"
+                            type="text"
+                            class="form-control"
+                            id="num_cep"
+                            name="num_cep"
+                        >
+                    </div>
+    
+                    <div class="form-group mb-3 col-sm">
+                        <label for="logradouro">Logradouro</label>
+                        <input 
+                            formControlName="logradouro"
+                            type="text"
+                            class="form-control"
+                            id="logradouro"
+                            name="logradouro"
+                        >
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group mb-3 col-sm">
+                        <label for="bairro">Bairro</label>
+                        <input 
+                            formControlName="bairro"
+                            type="text"
+                            class="form-control"
+                            id="bairro"
+                            name="bairro"
+                        >
+                    </div>
 
-            
+                    <div class="form-group mb-3 col-sm">
+                        <label for="cidade">Cidade</label>
+                        <input 
+                            formControlName="cidade"
+                            type="text"
+                            class="form-control"
+                            id="cidade"
+                            name="cidade"
+                        >
+                    </div>
+                    <div class="form-group mb-3 col-sm-2">
+                        <label for="cidade">UF</label>
+                        <input 
+                            formControlName="uf"
+                            type="text"
+                            class="form-control"
+                            id="cidade"
+                            name="cidade"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group d-grid d-md-flex justify-content-md-end" role="group" aria-label="Basic outlined example">
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    (click)="abriModal('#modalAdicionaTelefone')"
+                    title="Adicionar Telefone"
+                >
+                    <i class="bi bi-plus-circle mr-3"></i>
+                    Telefone
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    (click)="abriModal('#modalAdicionaEmail')"
+                    title="Adicionar E-mail"
+                >
+                    <i class="bi bi-plus-circle mr-3"></i>
+                    Email
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    title="Adicionar Endereço"
+                    (click)="abriFechaFormularioEndereco()"
+                >
+                    <i class="bi bi-plus-circle mr-3"></i>
+                    Endereço
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <p>Dados de contato</p>
+                </div>
+                <div class="">
+                    <div *ngFor="let item of listaTelefone">
+                        <div class="row">
+                            <span class="col-4">{{ item.ddd | mask: '(00)'}} {{ item.numero  | mask: '0000-0000 || 0 0000-0000' }}</span>    
+                            <span class="col" > {{ item.tipoTelefone}} </span>
+                            <span class="col-1" (click)="removeTelefone(item)"><i class="bi bi-trash" title="Excluir"></i></span>
+                        </div>
+                    </div>
+                    <div *ngFor="let item of listaEmail">
+                        <div class="row">
+                            <span class="col-sm">{{ item.email }}</span>
+                            <span class="col-sm-1" (click)="removeEmail(item)"><i class="bi bi-trash" title="Excluir"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">limpar</button>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
+
         </form>
-        <div class="btn-group d-grid d-md-flex justify-content-md-end" role="group" aria-label="Basic outlined example">
-            <button type="button" class="btn btn-outline-primary" (click)="abrirModalTelefone()">Telefone</button>
-            <button type="button" class="btn btn-outline-primary">Email</button>
-            <button type="button" class="btn btn-outline-primary">Endereço</button>
-        </div>
     </div>
 </div>
 
-<app-telefone></app-telefone>
+
+
+<app-telefone 
+    (enviaTelefoneEvent)="recebeTelefone($event)"
+></app-telefone>
+
+<app-email
+    (enviaDadosEmailEvent)="recebeDadosEmail($event)"
+></app-email>

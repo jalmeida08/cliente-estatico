@@ -1,4 +1,4 @@
-export class ListaEmailForm {
+export class EmailForm {
     email: string;
 
     constructor(email: string){
