@@ -9,6 +9,7 @@ import { AdicionaEmailComponent } from './cadastro/modal/email/adiciona-email.co
 import { AdicionaTelefoneComponent } from './cadastro/modal/telefone/adiciona-telefone.component';
 
 import { ClienteComponent } from './cliente.component';
+import { EdicaoClienteComponent } from './editacao/edicao-ciente.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { ClienteComponent } from './cliente.component';
         AdicionaEmailComponent,
         ClienteCadastroComponent,
         AdicionaTelefoneComponent,
-        ClienteComponent
+        ClienteComponent,
+        EdicaoClienteComponent
     ],
     providers: [MaskPipe],
 })

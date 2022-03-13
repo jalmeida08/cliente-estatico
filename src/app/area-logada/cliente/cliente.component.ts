@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { ClienteService } from "./cliente.service";
 import { DadosClienteDTO } from "./dto/dados-cliente-dto";
@@ -12,15 +13,13 @@ export class ClienteComponent implements OnInit, OnDestroy {
     destroy$ = new Subject<boolean>();
     listaDadoCliente$?: Observable<DadosClienteDTO[]>;
     
-    constructor(private clienteService: ClienteService)
+    constructor(
+        private clienteService: ClienteService,
+        private router: Router)
     {}
     
     ngOnInit(): void {
-        console.log('vai chamar');
-        
         this.listaDadoCliente$ = this.listaCliente();
-        console.log('chamou');
-        
     }
 
     ngOnDestroy(): void {
@@ -37,6 +36,10 @@ export class ClienteComponent implements OnInit, OnDestroy {
                     this.listaDadoCliente$ = this.listaCliente();
                 }
             })
+    }
+
+    editarCliente(item: DadosClienteDTO): void {
+        this.router.navigate([`/cliente/${item.id}`]);
     }
 
     adicionarZerosEsquerda(dado:string): string {

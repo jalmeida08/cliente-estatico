@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ClienteForm } from './cadastro/form/cliente-form';
 import { EnderecoForm } from './cadastro/form/endereco-form';
 import { DadosClienteDTO } from './dto/dados-cliente-dto';
+import { ClienteDTO } from './dto/cliente-dto';
 
 
 
@@ -25,6 +26,10 @@ export class ClienteService {
         return this.http.get<EnderecoForm>(`https://viacep.com.br/ws/${cep}/json`);
     }
 
+    getCliente(idCliente: number): Observable<ClienteDTO> {
+        return this.http.get<ClienteDTO>(`${environment.apiUrl}/cliente/${idCliente}`)
+    }
+    
     removeCliente(idCliente: number):Observable<HttpResponseBase>{
         return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/cliente/${idCliente}`);
     }

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { StringUtilService } from 'src/app/core/util/string-util.service';
 import { TipoTelefoneDTO } from '../../../dto/tipo-telefone-dto';
 import { TelefoneService } from './telefone.service';
@@ -16,6 +16,7 @@ export class AdicionaTelefoneComponent implements OnInit, OnDestroy {
 
     destroy$ = new Subject<boolean>();
     @Output() enviaTelefoneEvent = new EventEmitter();
+    @Input() telefoneSubject!: Subject<FormGroup>;
     listaTipoTelefone$?: Observable<TipoTelefoneDTO[]>;
     telefoneForm = new FormGroup({});
 
@@ -33,6 +34,7 @@ export class AdicionaTelefoneComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.listaTipoTelefone$ = this.carregaTipoTelefone();
         this.telefoneForm = this.iniciarFormularioTelefone();
+        this.verificarFormularioTelefone();
         
     }
 
@@ -59,4 +61,13 @@ export class AdicionaTelefoneComponent implements OnInit, OnDestroy {
         });
     }
 
+    private verificarFormularioTelefone(){        
+        this.telefoneSubject
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (res:FormGroup) => {
+                    this.telefoneForm = res;
+                }
+            })
+    }
 }

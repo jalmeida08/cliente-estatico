@@ -5,6 +5,7 @@
         <th scope="col">Nome</th>
         <th scope="col">CPF</th>
         <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -13,6 +14,7 @@
         <td>{{ item.nome }}</td>
         <td>{{ adicionarZerosEsquerda(item.cpf) | mask: '000.000.000-00'}}</td>
         <td (click)="removeCliente(item)">REMOVE</td>
+        <td (click)="editarCliente(item)">EDITAR</td>
       </tr>
     </tbody>
   </table>
