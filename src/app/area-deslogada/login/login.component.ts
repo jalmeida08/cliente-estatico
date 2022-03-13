@@ -1,10 +1,10 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
+import { UsuarioService } from "src/app/core/auth/usuario.service";
 import { Token } from "src/app/core/model/token";
-import { TokenService } from "src/app/core/token/token.service";
+import { MensagemService } from "src/app/core/shared/mensagem/mensagem-service";
 import { LoginService } from "./login.service";
 import { LoginForm } from "./loginForm";
 
@@ -20,8 +20,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     
     constructor(
         private loginService: LoginService,
-        private tokenServoce: TokenService,
-        private readonly router: Router
+        private usuarioService: UsuarioService,
+        private router: Router,
+        private mensagemService: MensagemService
         ) {}
 
     
@@ -47,12 +48,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (res: Token) => {
-                    this.tokenServoce.setToken(res.accessToken, res.tokenType);
+                    this.usuarioService.setToken(res.accessToken, res.tokenType);
+                    this.usuarioService.setDadosUsuario(res.nome, res.role);
                     this.router.navigate(['cliente']);
                 },
                 error: (err) => {
                     console.log(err);
-                    
+                    this.mensagemService.error(err.error.message)                 
                 }
             })
         

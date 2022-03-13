@@ -24,7 +24,7 @@ export class TelefoneService {
         return this.http.put<TelefoneForm>(`${environment.apiUrl}/telefone/${idTelefone}`, telefoneForm);
     }
 
-    removeTelefone(idTelefone: number): Observable<HttpResponseBase>{
-        return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/telefone/${idTelefone}`);
+    removeTelefone(idTelefone: number, idCliente: number): Observable<HttpResponseBase>{
+        return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/telefone/${idTelefone}/${idCliente}`);
     }
 }

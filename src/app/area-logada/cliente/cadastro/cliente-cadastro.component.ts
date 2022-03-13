@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
+import { MensagemService } from "src/app/core/shared/mensagem/mensagem-service";
 import { StringUtilService } from "src/app/core/util/string-util.service";
 import { ClienteService } from "../cliente.service";
 import { ClienteForm } from "./form/cliente-form";
@@ -20,11 +21,11 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
     clienteForm = new FormGroup({});
     listaTelefone = new Array<TelefoneForm>();
     listaEmail = new Array<EmailForm>();
-    isExiteFormularioEndereco = false;
 
     constructor(
         private clienteService: ClienteService,
-        private stringUtilService: StringUtilService
+        private stringUtilService: StringUtilService,
+        private mensagemService:MensagemService
     ){ }
     
     ngOnInit(): void {
@@ -55,10 +56,6 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
         return mask;
     }
 
-    abriFechaFormularioEndereco(): void {
-        this.isExiteFormularioEndereco = !this.isExiteFormularioEndereco;
-    }
-
     abriModal(idModal:string): void {        
         $(idModal).modal('show');
     }
@@ -81,12 +78,14 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
         this.listaEmail.splice(index, 1);
     }
 
-    salvaDadosCliente(): void {
-        if(!this.clienteForm.valid)
-            return;
+    salvaDadosCliente(): void {        
+        // if(!this.clienteForm.valid)
+        //     return;
 
         let dadosCliente = this.clienteForm.value as ClienteForm;
-        let dadosEndereco = this.clienteForm.value as EnderecoForm;
+        let dadosEndereco: EnderecoForm | undefined = this.clienteForm.value as EnderecoForm;
+        if(dadosEndereco?.cep.toString().length !== 8)
+            dadosEndereco = undefined;
         this.clienteService
             .salvaDadosCliente(new ClienteForm(dadosCliente.nome, dadosCliente.cpf, this.listaTelefone, this.listaEmail, dadosEndereco))
             .pipe(takeUntil(this.destroy$))
@@ -99,12 +98,18 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
                 error: (err) => {
                     console.log(err);
                     
+                    if(err.error.errors.length > 0){
+                        err.error.errors.forEach((item:any) => {
+                            this.mensagemService.warning(`${item.defaultMessage}`)
+
+                        })
+                    }
                 }
             })
     }
 
     buscarPorCep():void {
-        if(this.clienteForm.controls['cep'].valid && this.clienteForm.controls['cep'].valueChanges){
+        if(this.clienteForm.controls['cep'].value.length == 8 && this.clienteForm.controls['cep'].valueChanges){
             let cep = this.clienteForm.controls['cep'].value;
             this.clienteService
                 .consultaCep(Number(cep))
@@ -129,11 +134,11 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
         return new FormGroup({
             nome: new FormControl('', [Validators.required]),
             cpf: new FormControl('', [Validators.required]),
-            cep: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-            logradouro: new FormControl('', Validators.required),
-            bairro: new FormControl('', Validators.required),
-            cidade: new FormControl('', Validators.required),
-            uf: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]),
+            cep: new FormControl(''),
+            logradouro: new FormControl(''),
+            bairro: new FormControl(''),
+            cidade: new FormControl(''),
+            uf: new FormControl(''),
             complemento: new FormControl('')
         })
     }

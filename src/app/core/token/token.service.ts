@@ -32,6 +32,9 @@ export class TokenService {
 
     removerToken(): void{
         window.localStorage.removeItem(KEY);
+        window.localStorage.removeItem(TYPE_KEY);
+        window.localStorage.removeItem('accessToken');
+        window.localStorage.removeItem('name');
     }
     
 }

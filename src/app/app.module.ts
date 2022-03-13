@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { LoginModule } from './area-deslogada/login/login.module';
 import { ClienteModule } from './area-logada/cliente/cliente.module';
 import { RequestInterceptor } from './core/auth/auth.interceptor';
+import { MensagemComponent } from './core/shared/mensagem/mensagem.component';
 import { MenuComponent } from './core/shared/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    MensagemComponent
   ],
   imports: [
     NgxMaskModule.forRoot(),

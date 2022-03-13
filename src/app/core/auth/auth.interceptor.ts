@@ -15,9 +15,7 @@ export class RequestInterceptor implements HttpInterceptor {
         private router: Router
     ){ }
     
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("... ", req.url);
-        
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {        
         if(req.url.indexOf(ROTA_PUBLICA) < 0){
             if(this.usuarioService.isLogged() ){
                 const typeAndToken: string | null = this.usuarioService.getTypeAndToken();

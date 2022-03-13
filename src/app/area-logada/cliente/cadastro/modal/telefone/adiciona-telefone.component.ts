@@ -61,7 +61,8 @@ export class AdicionaTelefoneComponent implements OnInit, OnDestroy {
         });
     }
 
-    private verificarFormularioTelefone(){        
+    private verificarFormularioTelefone(){     
+        if(this.telefoneSubject === undefined) return;   
         this.telefoneSubject
             .pipe(takeUntil(this.destroy$))
             .subscribe({

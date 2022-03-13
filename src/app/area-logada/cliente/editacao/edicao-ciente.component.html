@@ -96,11 +96,13 @@
                         <div class="row">
                             <span class="col-4">{{ item.ddd | mask: '(00)'}} {{ item.numero  | mask: '0000-0000 || 0 0000-0000' }}</span>    
                             <span class="col" > {{ item.tipoTelefone}} </span>
-                            <span class="col-1" (click)="removeTelefone(item)">
-                                <i class="bi bi-trash" title="Excluir"></i>
-                            </span>
+                            
                             <span class="col-1" title="Editar" (click)="abriModal('#modalAdicionaTelefone', item, undefined)">
                                 <i class="bi bi-pencil-fill"></i>
+                            </span>
+
+                            <span class="col-1" (click)="removeTelefone(item)">
+                                <i class="bi bi-trash" title="Excluir"></i>
                             </span>
                         </div>
                     </div>

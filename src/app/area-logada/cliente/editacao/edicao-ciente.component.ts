@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
+import { MensagemService } from "src/app/core/shared/mensagem/mensagem-service";
 import { StringUtilService } from "src/app/core/util/string-util.service";
 import { EmailForm } from "../cadastro/form/email-form";
 import { EnderecoForm } from "../cadastro/form/endereco-form";
@@ -39,7 +40,8 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
         private telefoneService: TelefoneService,
         private route: ActivatedRoute,
         private stringUtilService: StringUtilService,
-        private emailService: EmailService
+        private emailService: EmailService,
+        private mensagemService:MensagemService
     ) {}
         
     ngOnInit(): void {
@@ -54,14 +56,19 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
     }
 
     removeTelefone(telefoneSelecionado:TelefoneDTO): void {
-       this.telefoneService
-        .removeTelefone(telefoneSelecionado.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-            next: () => {
-                this.buscaDadosCliente(this.idCliente);
-            }
-        })
+        if(this.idCliente === undefined) return;    
+        this.telefoneService
+            .removeTelefone(telefoneSelecionado.id, this.idCliente)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.buscaDadosCliente(this.idCliente);
+                },
+                error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
+                }
+                
+            })
     }
 
     abriModal(idModal:string, telefoneDTO?:TelefoneDTO | undefined, emailDTO?: EmailDTO | undefined): void {
@@ -76,12 +83,16 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
     }
  
     removeEmail(emailSelecionado: EmailDTO): void {
+        if(this.idCliente === undefined) return;    
         this.emailService
-            .removeEmail(emailSelecionado.id)
+            .removeEmail(emailSelecionado.id, this.idCliente)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.buscaDadosCliente(this.idCliente)
+                },
+                error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
                 }
             });
     }

@@ -12,7 +12,7 @@ export class EmailService {
         return this.http.put<HttpResponseBase>(`${environment.apiUrl}/email/${idEmail}`, emailForm);
     }
 
-    removeEmail(idEmail: number): Observable<HttpResponseBase>{
-        return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/email/${idEmail}`);
+    removeEmail(idEmail: number, idCliente: number): Observable<HttpResponseBase>{
+        return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/email/${idEmail}/${idCliente}`);
     }
 }
