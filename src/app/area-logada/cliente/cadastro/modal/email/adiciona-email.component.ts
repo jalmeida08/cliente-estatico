@@ -36,9 +36,9 @@ export class AdicionaEmailComponent implements OnInit, OnDestroy {
             return;
         let email: EmailForm = this.emailForm.value as EmailForm;
 
+        $('#modalAdicionaEmail').modal('hide');
         this.enviaDadosEmailEvent.emit(email);
         this.emailForm = this.inicalizarEmailForm();
-        $('#modalAdicionaEmail').modal('hide');
         
     }
 

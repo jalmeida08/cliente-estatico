@@ -91,7 +91,7 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
-                    this.buscaDadosCliente(this.idCliente)
+                    this.buscaDadosCliente(this.idCliente);
                     this.mensagemService.success("E-mail removido com sucesso");
                 }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);
@@ -110,7 +110,7 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
                     this.listaEmail = res.listaEmail;
                     this.listaTelefone = res.listaTelefone;
                 }, error: (err:HttpErrorResponse) => {
-                    console.log(err);
+                    this.mensagemService.error(err.error.message);
                 }
             })
     }   
@@ -206,7 +206,8 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
-                    this.mensagemService.success("Cliente removido com sucesso");
+                    this.mensagemService.success("Telefone atualizado com sucesso");
+                    this.buscaDadosCliente(this.idCliente)
                 }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);
                 }
@@ -220,6 +221,7 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.mensagemService.success("E-mail atualizado com sucesso");
+                    this.buscaDadosCliente(this.idCliente)
                 }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);
                 }
@@ -238,6 +240,7 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (res: HttpResponseBase) => {
+                    this.buscaDadosCliente(this.idCliente)
                     this.mensagemService.success("Cliente atualizado com sucesso");
                 }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);

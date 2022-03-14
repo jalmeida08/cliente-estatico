@@ -19,6 +19,20 @@
                                             name="email"
                                         >
                                     </div>
+                                    <span
+                                        class="text-danger d-block mt-1 text-end"
+                                        style="font-size: .8em;"
+                                        *ngIf="emailForm.controls['email'].touched && emailForm.controls['email'].invalid"
+                                    >
+                                        E-mail invalido
+                                    </span>
+                                    <span
+                                        class="text-danger d-block mt-1 text-end"
+                                        style="font-size: .8em;"
+                                        *ngIf="emailForm.controls['email'].value.length === 0"
+                                    >
+                                        Campo e-mail é obrigatório
+                                    </span>
                                 </div>                               
                             </div>
                             <div class="modal-footer">

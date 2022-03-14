@@ -97,8 +97,20 @@
                     >
                 </div>
             </div>
+            <div class="row">
+                <div class="form-groupcol-sm">
+                    <label for="complemento">Complemento</label>
+                    <input 
+                        formControlName="complemento"
+                        type="text"
+                        class="form-control"
+                        id="complemento"
+                        name="complemento"
+                    >
+                </div>
+            </div>
 
-            <div class="btn-group d-grid d-md-flex justify-content-md-end" role="group" aria-label="Basic outlined example">
+            <div class="btn-group d-grid d-md-flex justify-content-md-end mt-5" role="group" aria-label="Basic outlined example">
                 <button
                     type="button"
                     class="btn btn-outline-primary"
@@ -123,21 +135,35 @@
                 <div class="col text-center mt-3">
                     <p>Dados de contato</p>
                 </div>
-                <div class="">
-                    <div *ngFor="let item of listaTelefone">
-                        <div class="row">
-                            <span class="col-4">{{ item.ddd | mask: '(00)'}} {{ item.numero  | mask: '0000-0000 || 0 0000-0000' }}</span>    
-                            <span class="col" > {{ item.tipoTelefone}} </span>
-                            <span class="col-1" (click)="removeTelefone(item)"><i class="bi bi-trash" title="Excluir"></i></span>
-                        </div>
-                    </div>
-                    <div *ngFor="let item of listaEmail">
-                        <div class="row">
-                            <span class="col-sm">{{ item.email }}</span>
-                            <span class="col-sm-1" (click)="removeEmail(item)"><i class="bi bi-trash" title="Excluir"></i></span>
-                        </div>
-                    </div>
-                </div>
+                <table class="table table-Light">
+                    <tbody>
+                      <tr *ngFor="let item of listaTelefone">
+                        <td>{{ item.ddd | mask: '(00)'}} {{ item.numero }}</td>
+                        <td>{{ item.tipoTelefone}}</td>
+                        <td>
+                            <span
+                                class="col-1"
+                                (click)="removeTelefone(item)"
+                            >
+                                <i class="bi bi-trash" title="Excluir"></i>
+                            </span>
+                        </td>
+
+                      </tr>
+                      <tr *ngFor="let item of listaEmail">
+                        <td colspan="2">{{ item.email }}</td>
+                        <td>
+                            <span
+                                class="col-sm-1"
+                                (click)="removeEmail(item)"
+                            >
+                                <i class="bi bi-trash" title="Excluir"></i>
+                            </span>
+                        </td>
+
+                      </tr>
+                    </tbody>
+                </table>
             </div>
 
             <button class="btn btn-primary" type="submit">Salvar</button>

@@ -43,6 +43,8 @@ export class AdicionaTelefoneComponent implements OnInit, OnDestroy {
     }
 
     adicionarTelefone(): void {
+        if(!this.telefoneForm.valid) return;
+        
         this.enviaTelefoneEvent.emit(this.telefoneForm.value);
         $('#modalAdicionaTelefone').modal('hide');
         this.telefoneForm = this.iniciarFormularioTelefone();
