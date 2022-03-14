@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RoleDTO } from 'src/app/area-deslogada/login/dto/role-dto';
 
 const KEY = 'authToken'
 const TYPE_KEY = 'authType'
@@ -28,6 +29,21 @@ export class TokenService {
         if(this.getToken())
             return true;
         return false;
+    }
+
+    getNomeUsuario():string | null{
+        return window.localStorage.getItem('name');
+    }
+
+    getAcesso():string | null{
+        return window.localStorage.getItem('accessToken');
+    }
+
+    setDadosUsuario(name: string, roles:RoleDTO[]):void{
+        window.localStorage.setItem('name', name);
+        let acessos = ''
+        roles.forEach((item)=> { acessos += item.authority+'#'})
+        window.localStorage.setItem('accessToken', acessos);
     }
 
     removerToken(): void{

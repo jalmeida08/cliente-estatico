@@ -11,12 +11,7 @@ export class UsuarioService {
         this.tokenService.setToken(accessToken, typeToken)
     }
 
-    setDadosUsuario(name: string, roles:RoleDTO[]){
-        window.localStorage.setItem('name', name);
-        let acessos = ''
-        roles.forEach((item)=> { acessos += item.authority+'#'})
-        window.localStorage.setItem('accessToken', acessos);
-    }
+
 
     isLogged(): boolean { 
         return this.tokenService.hasToken();
@@ -28,6 +23,21 @@ export class UsuarioService {
         
     logout() {
         this.tokenService.removerToken();
+    }
+
+    getNomeUsuario():string | null {
+        return this.tokenService.getNomeUsuario()
+    }
+    setDadosUsuario(name: string, roles:RoleDTO[]):void {
+        this.tokenService.setDadosUsuario(name, roles);
+    }
+    
+    isAdmin(): boolean {
+        const acesso = this.tokenService.getAcesso();
+        if(acesso !== null)
+            return acesso.indexOf("ROLE_ADMIN") >= 0;
+
+        return false;
     }
 
     removerToken(){

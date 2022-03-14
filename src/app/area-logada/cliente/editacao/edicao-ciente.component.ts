@@ -1,10 +1,12 @@
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse, HttpResponseBase } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { MensagemService } from "src/app/core/shared/mensagem/mensagem-service";
 import { StringUtilService } from "src/app/core/util/string-util.service";
+import { ClienteForm } from "../cadastro/form/cliente-form";
+import { EditaClienteForm } from "../cadastro/form/edita-cliente-form";
 import { EmailForm } from "../cadastro/form/email-form";
 import { EnderecoForm } from "../cadastro/form/endereco-form";
 import { TelefoneForm } from "../cadastro/form/telefone-form";
@@ -63,8 +65,8 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.buscaDadosCliente(this.idCliente);
-                },
-                error: (err: HttpErrorResponse) => {
+                    this.mensagemService.success("Telefone removido com sucesso");
+                }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);
                 }
                 
@@ -90,8 +92,8 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.buscaDadosCliente(this.idCliente)
-                },
-                error: (err: HttpErrorResponse) => {
+                    this.mensagemService.success("E-mail removido com sucesso");
+                }, error: (err: HttpErrorResponse) => {
                     this.mensagemService.error(err.error.message);
                 }
             });
@@ -119,8 +121,14 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             return new FormGroup({
                 cpf: new FormControl(dado?.cpf.padStart(11, '0'), [Validators.required]),
                 nome: new FormControl(dado?.nome, [Validators.required]),
+                cep: new FormControl('' ),
+                logradouro: new FormControl(''),
+                bairro: new FormControl(''),
+                cidade: new FormControl(''),
+                uf: new FormControl('' ),
+                complemento: new FormControl('')
             });
-        } else if(dado?.endereco !== undefined){
+        } else{
             this.isExiteFormularioEndereco = true;
             return new FormGroup({
                 nome: new FormControl(dado.nome, [Validators.required]),
@@ -131,17 +139,6 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
                 cidade: new FormControl(dado.endereco?.cidade, Validators.required),
                 uf: new FormControl(dado.endereco?.uf, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]),
                 complemento: new FormControl(dado.endereco?.complemento)
-            })
-        }else{
-            return new FormGroup({
-                nome: new FormControl('', [Validators.required]),
-                cpf: new FormControl('', [Validators.required]),
-                cep: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-                logradouro: new FormControl('', Validators.required),
-                bairro: new FormControl('', Validators.required),
-                cidade: new FormControl('', Validators.required),
-                uf: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]),
-                complemento: new FormControl('')
             })
         }
     }
@@ -155,8 +152,10 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next:(res:EnderecoForm) => {
                         this.incluirValorDaBusca(res);
-                    }
-                })
+                }, error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
+                }
+            })
         }
     }
 
@@ -207,7 +206,9 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
-                    this.buscaDadosCliente(this.idCliente)
+                    this.mensagemService.success("Cliente removido com sucesso");
+                }, error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
                 }
             });
     }
@@ -218,7 +219,9 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
-                    this.buscaDadosCliente(this.idCliente)
+                    this.mensagemService.success("E-mail atualizado com sucesso");
+                }, error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
                 }
             });
     }
@@ -226,6 +229,19 @@ export class EdicaoClienteComponent implements OnInit, OnDestroy {
 
     
     editaCliente(): void{
-
+        if(this.idCliente == null) return;
+        let clientForm = this.clienteForm.value as EditaClienteForm;
+        let endereco = this.clienteForm.value as EnderecoForm;
+        
+        this.clienteService
+            .atualizaCliente(this.idCliente, new EditaClienteForm(clientForm.nome, endereco))
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (res: HttpResponseBase) => {
+                    this.mensagemService.success("Cliente atualizado com sucesso");
+                }, error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
+                }
+            })
     }
 }

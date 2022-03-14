@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject, takeUntil } from "rxjs";
+import { MensagemService } from "src/app/core/shared/mensagem/mensagem-service";
 import { ClienteService } from "./cliente.service";
 import { DadosClienteDTO } from "./dto/dados-cliente-dto";
 
@@ -15,7 +17,9 @@ export class ClienteComponent implements OnInit, OnDestroy {
     
     constructor(
         private clienteService: ClienteService,
-        private router: Router)
+        private router: Router,
+        private mensagemService:MensagemService
+        )
     {}
     
     ngOnInit(): void {
@@ -34,6 +38,9 @@ export class ClienteComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.listaDadoCliente$ = this.listaCliente();
+                    this.mensagemService.success("Cliente removido com sucesso");
+                }, error: (err: HttpErrorResponse) => {
+                    this.mensagemService.error(err.error.message);
                 }
             })
     }

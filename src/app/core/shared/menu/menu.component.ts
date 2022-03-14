@@ -13,6 +13,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     destro$: Subject<boolean> = new Subject<boolean>();
     usuarioLogado?: boolean;
     isMobile?:boolean;
+    nomeUsuario?: string | null;
 
     constructor(
         private readonly usuarioService: UsuarioService,
@@ -22,6 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     ngOnInit(): void {        
         this.router.events.subscribe(() => {
             this.usuarioLogado = this.usuarioService.isLogged();
+            this.nomeUsuario = this.usuarioService.getNomeUsuario();
         });
     }
 

@@ -94,6 +94,7 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
                     this.listaEmail = Array<EmailForm>();
                     this.listaTelefone = Array<TelefoneForm>();
                     this.clienteForm = this.montarclienteForm();
+                    this.mensagemService.success("Cliente salvo com sucesso");
                 }, 
                 error: (err) => {
                     console.log(err);

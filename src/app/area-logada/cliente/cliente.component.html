@@ -4,7 +4,7 @@
         <th scope="col"></th>
         <th scope="col">Nome</th>
         <th scope="col">CPF</th>
-        <th scope="col"></th>
+        <th scope="col" isAccessAdmin></th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -13,8 +13,8 @@
         <th scope="row">{{ item.id }}</th>
         <td>{{ item.nome }}</td>
         <td>{{ adicionarZerosEsquerda(item.cpf) | mask: '000.000.000-00'}}</td>
-        <td (click)="removeCliente(item)">REMOVE</td>
-        <td (click)="editarCliente(item)">EDITAR</td>
+        <td (click)="removeCliente(item)" isAccessAdmin>REMOVE</td>
+        <td (click)="editarCliente(item)">DETALHE</td>
       </tr>
     </tbody>
   </table>

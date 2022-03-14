@@ -16,6 +16,7 @@
             <div class="form-group mb-3">
                 <label for="num_cpf">CPF</label>
                 <input 
+                    [disabled]="true"
                     [mask]="getMask('cpf')"
                     formControlName="cpf"
                     type="text"
@@ -25,7 +26,7 @@
                 >
             </div>
 
-            <div *ngIf="isExiteFormularioEndereco">
+            <div>
                 <div class="row">
                     <div class="form-group mb-3 col-sm-3">
                         <label for="num_cep">CEP</label>
@@ -86,31 +87,65 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary" isAccessAdmin type="submit">Salvar</button>
 
             <div class="row">
-                <div class="col">
-                    <p>Dados de contato</p>
+                <div class="col mt-5">
+                    <p class="text-center">DADOS DE CONTATO</p>
                 </div>
                 <div class="">
-                    <div *ngFor="let item of listaTelefone">
+                    <div >
                         <div class="row">
-                            <span class="col-4">{{ item.ddd | mask: '(00)'}} {{ item.numero  | mask: '0000-0000 || 0 0000-0000' }}</span>    
-                            <span class="col" > {{ item.tipoTelefone}} </span>
-                            
-                            <span class="col-1" title="Editar" (click)="abriModal('#modalAdicionaTelefone', item, undefined)">
-                                <i class="bi bi-pencil-fill"></i>
-                            </span>
-
-                            <span class="col-1" (click)="removeTelefone(item)">
-                                <i class="bi bi-trash" title="Excluir"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div *ngFor="let item of listaEmail">
-                        <div class="row">
-                            <span class="col-sm">{{ item.email }}</span>
-                            <span class="col-sm-1" (click)="abriModal('#modalAdicionaEmail', undefined, item)"><i class="bi bi-pencil-fill" title="Editar"></i></span>
-                            <span class="col-sm-1" (click)="removeEmail(item)"><i class="bi bi-trash" title="Excluir"></i></span>
+                            <table class="table table-Light">
+                                <tbody>
+                                  <tr *ngFor="let item of listaTelefone">
+                                    <td>{{ item.ddd | mask: '(00)'}} {{ item.numero }}</td>
+                                    <td>{{ item.tipoTelefone}}</td>
+                                    <td>
+                                        <span
+                                            isAccessAdmin
+                                            class="col-1"
+                                            title="Editar"
+                                            (click)="abriModal('#modalAdicionaTelefone', item, undefined)"
+                                        >
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            isAccessAdmin
+                                            class="col-1"
+                                            (click)="removeTelefone(item)"
+                                        >
+                                            <i class="bi bi-trash" title="Excluir"></i>
+                                        </span>
+                                    </td>
+        
+                                  </tr>
+                                  <tr *ngFor="let item of listaEmail">
+                                    <td colspan="2">{{ item.email }}</td>
+                                    <td>
+                                        <span
+                                            isAccessAdmin
+                                            class="col-sm-1"
+                                            (click)="abriModal('#modalAdicionaEmail', undefined, item)"
+                                        >
+                                            <i class="bi bi-pencil-fill" title="Editar"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            isAccessAdmin
+                                            class="col-sm-1"
+                                            (click)="removeEmail(item)"
+                                        >
+                                            <i class="bi bi-trash" title="Excluir"></i>
+                                        </span>
+                                    </td>
+        
+                                  </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

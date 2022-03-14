@@ -10,6 +10,7 @@ import { AdicionaTelefoneComponent } from './cadastro/modal/telefone/adiciona-te
 
 import { ClienteComponent } from './cliente.component';
 import { EdicaoClienteComponent } from './editacao/edicao-ciente.component';
+import { ExibeSeAdminModule } from 'src/app/core/shared/diretivas/exibir-se-admin.module';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { EdicaoClienteComponent } from './editacao/edicao-ciente.component';
         ReactiveFormsModule,
         CommonModule,
         HttpClientModule,
+        ExibeSeAdminModule
     ],
     exports: [],
     declarations: [
@@ -26,7 +28,7 @@ import { EdicaoClienteComponent } from './editacao/edicao-ciente.component';
         ClienteCadastroComponent,
         AdicionaTelefoneComponent,
         ClienteComponent,
-        EdicaoClienteComponent
+        EdicaoClienteComponent,
     ],
     providers: [MaskPipe],
 })

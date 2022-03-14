@@ -6,6 +6,7 @@ import { ClienteForm } from './cadastro/form/cliente-form';
 import { EnderecoForm } from './cadastro/form/endereco-form';
 import { DadosClienteDTO } from './dto/dados-cliente-dto';
 import { ClienteDTO } from './dto/cliente-dto';
+import { EditaClienteForm } from './cadastro/form/edita-cliente-form';
 
 
 
@@ -32,6 +33,10 @@ export class ClienteService {
     
     removeCliente(idCliente: number):Observable<HttpResponseBase>{
         return this.http.delete<HttpResponseBase>(`${environment.apiUrl}/cliente/${idCliente}`);
+    }
+
+    atualizaCliente(idCliente:number, clienteForm: EditaClienteForm): Observable<HttpResponseBase> {
+        return this.http.put<HttpResponseBase>(`${environment.apiUrl}/cliente/${idCliente}`, clienteForm);
     }
     
 }

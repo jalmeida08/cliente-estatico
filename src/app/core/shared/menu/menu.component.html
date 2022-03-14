@@ -10,16 +10,23 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" [routerLink]="['cliente']">Início</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['cliente/novo']">Cadastrar Cliente</a>
+              <li class="nav-item" isAccessAdmin>
+                <a class="nav-link" [routerLink]="['cliente/novo']">Novo Cliente</a>
               </li>
           </ul>
         </div>
+        <span class="navbar-text" style="margin-right: 20px;" id="navbarText">
+          <div class="navbar-nav " *ngIf="usuarioLogado">
+            <span>( {{ nomeUsuario }} )</span>
+          </div>
+        </span>
+
         <span class="navbar-text" id="navbarText">
           <div class="navbar-nav" *ngIf="usuarioLogado">
             <a class="nav-link" [routerLink]="['']" (click)="logout()">Sair</a>
           </div> 
         </span>
+        
       </div>
     </div>
 </nav>
